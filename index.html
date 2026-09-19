@@ -24,7 +24,7 @@ label{display:block;font-size:10px;letter-spacing:.12em;text-transform:uppercase
 .garment-card{border:1px solid #292929;padding:13px;margin-bottom:8px;background:#050505}.garment-card.active{border-color:#fff}.garment-card button:first-child{width:100%;background:none;color:#fff;border:0;text-align:left}.garment-name{font:20px var(--serif)}.garment-sub{font-size:9px;color:#777;text-transform:uppercase;letter-spacing:.12em;margin-top:4px}
 .action{width:100%;border:1px solid #fff;background:#fff;color:#000;padding:12px;text-transform:uppercase;font-size:10px;letter-spacing:.14em;margin-top:10px}.secondary{background:#000;color:#fff;border-color:#333}
 .badge{display:inline-block;border:1px solid #333;padding:5px 7px;font-size:9px;color:#aaa;margin-top:8px}
-@media(max-width:900px){.app{grid-template-rows:56px 1fr}main{grid-template-columns:1fr}.panel{display:none}.stage{height:calc(100dvh - 56px)}header{padding:0 16px}.meta{display:none}.mobilebar{display:flex!important}.panel.right.mobile-open{display:block;position:fixed;z-index:20;left:8px;right:8px;bottom:70px;top:64px;background:#050505;border:1px solid #333;padding:18px;overflow:auto;box-shadow:0 0 40px #000}}
+@media(max-width:900px){html,body{overflow:hidden}.app{grid-template-rows:54px 1fr}main{display:block;position:relative}.stage{height:calc(100dvh - 54px);width:100%}header{height:54px;padding:0 14px}.logo{font-size:22px}.meta{display:none}.panel{display:none}.panel.mobile-open{display:block;position:fixed;z-index:30;left:10px;right:10px;top:64px;bottom:72px;background:#050505;border:1px solid #333;padding:16px;overflow-y:auto;border-radius:10px;box-shadow:0 20px 60px #000}.right.mobile-open{display:block}.toolbar{top:10px;max-width:calc(100% - 24px);overflow:hidden}.tool{padding:8px 9px;font-size:9px}.hint{display:none}.mobilebar{display:flex!important;bottom:10px;left:10px;right:10px;border-radius:9px}.mobilebar button{min-height:42px}.stage #canvas{touch-action:none}}
 .mobilebar{display:none;position:absolute;bottom:12px;left:12px;right:12px;z-index:4;background:#050505;border:1px solid #333;padding:8px;gap:7px}.mobilebar button{flex:1;padding:10px;background:#111;color:#fff;border:1px solid #333;font-size:9px;text-transform:uppercase}
 </style>
 </head>
@@ -39,7 +39,7 @@ label{display:block;font-size:10px;letter-spacing:.12em;text-transform:uppercase
 <div class="section"><label>Fit</label><input class="slider" id="fit" type="range" min="-12" max="18" value="0"><div class="value"><span>SLIM</span><span id="fitVal">REGULAR</span><span>LOOSE</span></div></div>
 <div class="section"><label>Turntable</label><div class="grid"><button class="choice active" id="auto">Auto</button><button class="choice" id="reset">Reset</button></div><span class="badge">Drag to rotate · wheel to zoom</span></div>
 </aside>
-<section class="stage"><canvas id="canvas"></canvas><div class="toolbar"><button class="tool active" id="front">Front</button><button class="tool" id="back">Back</button><button class="tool" id="side">Side</button><button class="tool" id="full">360°</button></div><div class="hint">Drag the model · scroll to zoom · change garments at right</div><div class="mobilebar"><button id="mFit">Wardrobe</button><button id="mRotate">360°</button><button id="mReset">Reset</button></div></section>
+<section class="stage"><canvas id="canvas"></canvas><div class="toolbar"><button class="tool active" id="front">Front</button><button class="tool" id="back">Back</button><button class="tool" id="side">Side</button><button class="tool" id="full">360°</button></div><div class="hint">Drag the model · scroll to zoom · change garments at right</div><div class="mobilebar"><button id="mAvatar">Avatar</button><button id="mFit">Wardrobe</button><button id="mRotate">360°</button><button id="mReset">Reset</button></div></section>
 <aside class="panel right"><div class="eyebrow">Wardrobe</div><h2 class="title">Change<br>the cloth.</h2><div id="wardrobe"></div>
 <div class="section"><label>Add your own cloth</label><input id="clothName" class="text-input" placeholder="Cloth name" maxlength="28"><div class="grid" style="margin-top:8px"><button class="choice active" data-custom-type="shirt">Top</button><button class="choice" data-custom-type="dress">Dress</button><button class="choice" data-custom-type="jacket">Jacket</button><button class="choice" data-custom-type="trouser">Trousers</button></div><div class="color-row"><label style="margin:0">Color</label><input id="clothColor" type="color" value="#ffffff"></div><button class="action" id="addCloth">Add cloth to wardrobe</button></div>
 <div class="section"><label>Garment fit</label><input class="slider" id="garFit" type="range" min="-10" max="22" value="0"><div class="value"><span>BODY</span><span id="garFitVal">0</span><span>OVERSIZED</span></div><button class="action" id="save">Save look</button><button class="action secondary" id="photo">Snapshot</button></div></aside>
@@ -49,12 +49,67 @@ label{display:block;font-size:10px;letter-spacing:.12em;text-transform:uppercase
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.161/build/three.module.js";
 import {OrbitControls} from "https://cdn.jsdelivr.net/npm/three@0.161/examples/jsm/controls/OrbitControls.js";
 const canvas=document.querySelector("#canvas");const renderer=new THREE.WebGLRenderer({canvas,antialias:true,preserveDrawingBuffer:true});renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.setSize(canvas.clientWidth,canvas.clientHeight,false);renderer.outputColorSpace=THREE.SRGBColorSpace;
-const scene=new THREE.Scene();const camera=new THREE.PerspectiveCamera(30,1,.1,100);camera.position.set(0,1.5,5.2);const controls=new OrbitControls(camera,canvas);controls.enableDamping=true;controls.enablePan=false;controls.minDistance=3.1;controls.maxDistance=7;controls.target.set(0,1.55,0);
+const scene=new THREE.Scene();const camera=new THREE.PerspectiveCamera(32,1,.1,100);camera.position.set(0,1.45,5.0);const controls=new OrbitControls(camera,canvas);controls.enableDamping=true;controls.enablePan=false;controls.minDistance=2.6;controls.maxDistance=7;controls.target.set(0,1.35,0);controls.rotateSpeed=.65;controls.zoomSpeed=.8;
 scene.add(new THREE.HemisphereLight(0xffffff,0x111111,2.2));const key=new THREE.DirectionalLight(0xffffff,3.2);key.position.set(3,5,4);scene.add(key);const rim=new THREE.DirectionalLight(0xffffff,2);rim.position.set(-3,3,-4);scene.add(rim);
 const floor=new THREE.Mesh(new THREE.CircleGeometry(2.7,64),new THREE.MeshStandardMaterial({color:0x090909,roughness:1}));floor.rotation.x=-Math.PI/2;floor.position.y=.02;scene.add(floor);
 const model=new THREE.Group();scene.add(model);const matBody=new THREE.MeshStandardMaterial({color:0xd9d2cb,roughness:.72});const matSkin=new THREE.MeshStandardMaterial({color:0xe7b99e,roughness:.8});const matHair=new THREE.MeshStandardMaterial({color:0x171717,roughness:.95});const body=new THREE.Group();model.add(body);let gender="girl",bodyScale=1,fit=0,current="atelier shirt";const clothes=new THREE.Group();model.add(clothes);let customGarments=JSON.parse(localStorage.getItem("eclipse-custom-garments")||"[]");
 function cyl(r1,r2,h,mat){return new THREE.Mesh(new THREE.CylinderGeometry(r1,r2,h,32),mat)}function sphere(sx,sy,sz,mat){const m=new THREE.Mesh(new THREE.SphereGeometry(1,32,24),mat);m.scale.set(sx,sy,sz);return m}function limb(a,b,r,mat){const mid=new THREE.Vector3().addVectors(a,b).multiplyScalar(.5),len=a.distanceTo(b),m=new THREE.Mesh(new THREE.CylinderGeometry(r,r,len,32),mat);m.position.copy(mid);m.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),new THREE.Vector3().subVectors(b,a).normalize());return m}
-function rebuildHuman(){while(body.children.length)body.remove(body.children[0]);const female=gender==="girl",shoulder=female?.43:.49,waist=female?.34:.39,hip=female?.47:.40;const torso=cyl(waist+.02,shoulder,1.15,matSkin);torso.position.y=1.56;body.add(torso);const pelvis=cyl(hip,waist+.03,.45,matSkin);pelvis.position.y=.72;body.add(pelvis);const neck=cyl(.13,.14,.18,matSkin);neck.position.y=2.25;body.add(neck);const head=sphere(female?.27:.29,female?.33:.35,female?.27:.29,matSkin);head.position.y=2.56;body.add(head);const eyeMat=new THREE.MeshStandardMaterial({color:0x111111,roughness:1});for(const x of[-.095,.095]){const eye=sphere(.026,.026,.018,eyeMat);eye.position.set(x,2.59,.265);body.add(eye)}const hair=sphere(female?.285:.30,female?.14:.17,female?.28:.30,matHair);hair.position.set(0,2.78,-.015);body.add(hair);if(female){const pony=sphere(.13,.20,.13,matHair);pony.position.set(-.27,2.62,-.02);body.add(pony)}const armR=female?.095:.11,legR=female?.145:.16,shoulderY=2.02,elbowY=1.46,wristY=.92;for(const side of[-1,1]){body.add(limb(new THREE.Vector3(side*shoulder,shoulderY,0),new THREE.Vector3(side*(shoulder+.17),elbowY,0),armR,matSkin));body.add(limb(new THREE.Vector3(side*(shoulder+.17),elbowY,0),new THREE.Vector3(side*(shoulder+.18),wristY,0),armR*.88,matSkin))}for(const side of[-1,1]){const x=side*(female?.17:.19);body.add(limb(new THREE.Vector3(x,.53,0),new THREE.Vector3(x*(female?.2/.17:1),-.35,0),legR,matSkin))}body.scale.set(1,bodyScale,1)}
+function rebuildHuman(){
+while(body.children.length)body.remove(body.children[0]);
+const female=gender==="girl";
+const shoulder=female?.43:.49, waist=female?.33:.39, hip=female?.49:.42;
+const skin=new THREE.MeshStandardMaterial({color:0xe2aa8d,roughness:.72,metalness:0});
+const skinDark=new THREE.MeshStandardMaterial({color:0xb8795e,roughness:.8});
+const eyeWhite=new THREE.MeshStandardMaterial({color:0xf4f4f4,roughness:.45});
+const eyeDark=new THREE.MeshStandardMaterial({color:0x161616,roughness:.8});
+const lip=new THREE.MeshStandardMaterial({color:0x8b4f4a,roughness:.8});
+const torso=cyl(waist,shoulder,1.08,skin);torso.position.y=1.57;body.add(torso);
+const chest=sphere(shoulder*.98,.52,.34,skin);chest.position.set(0,1.76,.01);chest.scale.z=.78;body.add(chest);
+const pelvis=cyl(hip,waist+.02,.43,skin);pelvis.position.y=.78;body.add(pelvis);
+const neck=cyl(.105,.135,.2,skin);neck.position.y=2.23;body.add(neck);
+const head=sphere(female?.255:.275,female?.315:.335,female?.255:.275,skin);head.position.set(0,2.56,.015);body.add(head);
+
+// ears
+for(const x of[-.265,.265]){const e=sphere(.045,.065,.035,skin);e.position.set(x,2.56,.02);body.add(e)}
+
+// eyes + brows
+for(const x of[-.095,.095]){
+ const ew=sphere(.047,.035,.025,eyeWhite);ew.position.set(x,2.605,.245);body.add(ew);
+ const iris=sphere(.018,.018,.012,eyeDark);iris.position.set(x,2.605,.267);body.add(iris);
+ const brow=new THREE.Mesh(new THREE.BoxGeometry(.09,.018,.018),eyeDark);brow.position.set(x,2.665,.25);brow.rotation.z=x<0?.08:-.08;body.add(brow);
+}
+// nose
+const nose=cyl(.025,.038,.09,skinDark);nose.rotation.x=Math.PI/2;nose.position.set(0,2.535,.27);body.add(nose);
+// mouth
+const mouth=new THREE.Mesh(new THREE.BoxGeometry(.075,.018,.012),lip);mouth.position.set(0,2.465,.26);body.add(mouth);
+
+// hair cap and back hair
+const hairMat=new THREE.MeshStandardMaterial({color:0x171717,roughness:.95});
+const hair=sphere(female?.285:.30,female?.16:.18,female?.28:.30,hairMat);hair.position.set(0,2.78,-.015);body.add(hair);
+const backHair=sphere(female?.29:.305,female?.22:.20,female?.13:.16,hairMat);backHair.position.set(0,2.63,-.17);body.add(backHair);
+if(female){
+ const pony=sphere(.12,.24,.12,hairMat);pony.position.set(-.27,2.62,-.08);body.add(pony);
+ const pony2=pony.clone();pony2.position.x=.27;body.add(pony2);
+}
+
+// arms with shoulders, forearms and hands
+const armR=female?.085:.105, handR=female?.085:.095;
+for(const side of[-1,1]){
+ const shoulderJoint=sphere(armR*1.25,armR*1.25,armR*1.25,skin);shoulderJoint.position.set(side*shoulder,2.02,0);body.add(shoulderJoint);
+ body.add(limb(new THREE.Vector3(side*shoulder,2.02,0),new THREE.Vector3(side*(shoulder+.16),1.48,0),armR,skin));
+ body.add(limb(new THREE.Vector3(side*(shoulder+.16),1.48,0),new THREE.Vector3(side*(shoulder+.18),.96,0),armR*.88,skin));
+ const hand=sphere(handR*.72,handR*1.35,handR*.55,skin);hand.position.set(side*(shoulder+.18),.86,0);body.add(hand);
+}
+
+// legs + feet
+const legR=female?.135:.16;
+for(const side of[-1,1]){
+ const x=side*(female?.17:.19);
+ body.add(limb(new THREE.Vector3(x,.58,0),new THREE.Vector3(x,-.34,0),legR,skin));
+ const foot=sphere(.16,.08,.29,skin);foot.position.set(x,-.43,.08);body.add(foot);
+}
+body.scale.set(1,bodyScale,1);
+}
 function garmentMat(color){return new THREE.MeshStandardMaterial({color:new THREE.Color(color||0xffffff),roughness:.9,side:THREE.DoubleSide})}
 const garments={"atelier shirt":{type:"shirt",desc:"structured cotton",color:"#ffffff"},"noir jacket":{type:"jacket",desc:"tailored wool",color:"#ffffff"},"column dress":{type:"dress",desc:"long silhouette",color:"#ffffff"},"wide trousers":{type:"trouser",desc:"fluid cut",color:"#ffffff"}};
 function clear(g){while(g.children.length)g.remove(g.children[0])}
@@ -64,8 +119,8 @@ function setFit(v){fit=+v;document.querySelector("#fit").value=fit;document.quer
 function addWardrobe(){const box=document.querySelector("#wardrobe");box.innerHTML="";const all=[...Object.entries(garments).map(([name,g])=>[name,g]),...customGarments.map(g=>[g.name,g])];all.forEach(([name,g])=>{const d=document.createElement("div");d.className="garment-card"+(name===current?" active":"");d.innerHTML=`<button><div class="garment-name">${name}</div><div class="garment-sub">${g.desc||"custom garment"} · ${g.color||"#fff"}</div></button>${customGarments.some(x=>x.name===name)?'<button class="remove-cloth" title="Remove">×</button>':''}`;d.querySelector("button:first-child").onclick=()=>{current=name;addWardrobe();makeGarment()};const rm=d.querySelector(".remove-cloth");if(rm)rm.onclick=(e)=>{e.stopPropagation();customGarments=customGarments.filter(x=>x.name!==name);localStorage.setItem("eclipse-custom-garments",JSON.stringify(customGarments));if(current===name)current="atelier shirt";addWardrobe();makeGarment()};box.appendChild(d)})}
 document.querySelectorAll("[data-gender]").forEach(b=>b.onclick=()=>setGender(b.dataset.gender));let customType="shirt";document.querySelectorAll("[data-custom-type]").forEach(b=>b.onclick=()=>{customType=b.dataset.customType;document.querySelectorAll("[data-custom-type]").forEach(x=>x.classList.remove("active"));b.classList.add("active")});document.querySelector("#addCloth").onclick=()=>{const name=document.querySelector("#clothName").value.trim()||`Custom ${customType}`;const color=document.querySelector("#clothColor").value;customGarments=customGarments.filter(x=>x.name!==name);customGarments.push({name,type:customType,color,desc:"your custom cloth"});localStorage.setItem("eclipse-custom-garments",JSON.stringify(customGarments));current=name;document.querySelector("#clothName").value="";addWardrobe();makeGarment()};addWardrobe();rebuildHuman();makeGarment();
 document.querySelectorAll("[data-body]").forEach(b=>b.onclick=()=>{document.querySelectorAll("[data-body]").forEach(x=>x.classList.remove("active"));b.classList.add("active");bodyScale=b.dataset.body==="tall"?1.06:1;rebuildHuman();makeGarment()});document.querySelector("#fit").oninput=e=>setFit(e.target.value);document.querySelector("#garFit").oninput=e=>setFit(e.target.value);
-let auto=true;document.querySelector("#auto").onclick=()=>{auto=!auto;document.querySelector("#auto").textContent=auto?"Auto":"Manual";document.querySelector("#auto").classList.toggle("active",auto)};document.querySelector("#reset").onclick=()=>{controls.reset();camera.position.set(0,1.5,5.2);controls.target.set(0,1.55,0);controls.update()};function angle(a){auto=false;document.querySelector("#auto").classList.remove("active");model.rotation.y=a}document.querySelector("#front").onclick=()=>angle(0);document.querySelector("#back").onclick=()=>angle(Math.PI);document.querySelector("#side").onclick=()=>angle(Math.PI/2);document.querySelector("#full").onclick=()=>{auto=true;document.querySelector("#auto").classList.add("active")};
-document.querySelector("#save").onclick=()=>localStorage.setItem("eclipse-look",JSON.stringify({current,fit,bodyScale,gender}));document.querySelector("#photo").onclick=()=>{const a=document.createElement("a");a.download="eclipse-look.png";a.href=renderer.domElement.toDataURL("image/png");a.click()};document.querySelector("#mFit").onclick=()=>document.querySelector(".right").classList.toggle("mobile-open");document.querySelector("#mRotate").onclick=()=>auto=true;document.querySelector("#mReset").onclick=()=>document.querySelector("#reset").click();
+let auto=true;document.querySelector("#auto").onclick=()=>{auto=!auto;document.querySelector("#auto").textContent=auto?"Auto":"Manual";document.querySelector("#auto").classList.toggle("active",auto)};document.querySelector("#reset").onclick=()=>{controls.reset();camera.position.set(0,1.45,5.0);controls.target.set(0,1.35,0);controls.update()};function angle(a){auto=false;document.querySelector("#auto").classList.remove("active");model.rotation.y=a}document.querySelector("#front").onclick=()=>angle(0);document.querySelector("#back").onclick=()=>angle(Math.PI);document.querySelector("#side").onclick=()=>angle(Math.PI/2);document.querySelector("#full").onclick=()=>{auto=true;document.querySelector("#auto").classList.add("active")};
+document.querySelector("#save").onclick=()=>localStorage.setItem("eclipse-look",JSON.stringify({current,fit,bodyScale,gender}));document.querySelector("#photo").onclick=()=>{const a=document.createElement("a");a.download="eclipse-look.png";a.href=renderer.domElement.toDataURL("image/png");a.click()};document.querySelector("#mAvatar").onclick=()=>{document.querySelector(".panel:not(.right)").classList.toggle("mobile-open");document.querySelector(".right").classList.remove("mobile-open")};document.querySelector("#mFit").onclick=()=>{document.querySelector(".right").classList.toggle("mobile-open");document.querySelector(".panel:not(.right)").classList.remove("mobile-open")};document.querySelector("#mRotate").onclick=()=>{auto=true;document.querySelector("#auto").classList.add("active")};document.querySelector("#mReset").onclick=()=>document.querySelector("#reset").click();
 function resize(){const w=canvas.clientWidth,h=canvas.clientHeight;if(!w||!h)return;camera.aspect=w/h;camera.updateProjectionMatrix();renderer.setSize(w,h,false)}window.addEventListener("resize",resize);resize();function animate(){requestAnimationFrame(animate);if(auto)model.rotation.y+=.004;controls.update();renderer.render(scene,camera)}animate();
 </script>
 </body></html>
