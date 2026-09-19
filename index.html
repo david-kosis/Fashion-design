@@ -3,15 +3,23 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>NOIR — Digital Fashion Atelier</title>
+<title>MARIA — Digital Fashion Atelier</title>
 <style>
-:root{--ink:#171717;--paper:#f7f6f2;--muted:#777;--line:#deddd8;--serif:"Times New Roman",Georgia,serif;--sans:Arial,Helvetica,sans-serif}
+:root{--ink:#171717;--paper:#f7f6f2;--muted:#777;--line:#deddd8;--serif:"Times New Roman",Georgia,serif;--sans:Arial,Helvetica,sans-serif}:root{--ink:#050505;--paper:#f4f4f4;--muted:#777;--line:#cfcfcf;--serif:"Times New Roman",Georgia,serif;--sans:Arial,Helvetica,sans-serif}
+body{background:#050505}
+body:before{content:"";position:fixed;inset:-20%;z-index:-2;background:radial-gradient(circle at 20% 20%,rgba(255,255,255,.12),transparent 24%),radial-gradient(circle at 80% 65%,rgba(255,255,255,.08),transparent 25%),linear-gradient(120deg,#000 0%,#181818 35%,#020202 70%,#111 100%);animation:mariaAura 18s ease-in-out infinite alternate}
+body:after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.18;background-image:linear-gradient(rgba(255,255,255,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.08) 1px,transparent 1px);background-size:80px 80px;mask-image:radial-gradient(circle at center,#000,transparent 80%);animation:mariaGrid 24s linear infinite}
+@keyframes mariaAura{0%{transform:scale(1) rotate(0deg);filter:blur(0)}50%{transform:scale(1.08) rotate(2deg);filter:blur(3px)}100%{transform:scale(1.15) rotate(-2deg);filter:blur(7px)}}
+@keyframes mariaGrid{to{background-position:80px 80px}}
+
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans)}button,input{font:inherit}button{cursor:pointer}
-.announcement{height:34px;background:#171717;color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;letter-spacing:.14em;text-transform:uppercase}
-header{height:78px;background:var(--paper);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 4vw;position:sticky;top:0;z-index:50}
+.announcement{height:34px;background:#000;color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;letter-spacing:.14em;text-transform:uppercase}
+header{height:78px;background:rgba(244,244,244,.92);backdrop-filter:blur(18px);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 4vw;position:sticky;top:0;z-index:50}
 .brand{font:italic 700 31px var(--serif);letter-spacing:-1.5px}.nav{display:flex;gap:28px}.nav a{color:inherit;text-decoration:none;font-size:10px;letter-spacing:.13em;text-transform:uppercase}.nav a:hover{text-decoration:underline}.icons{display:flex;gap:15px;font-size:19px}.icons button{border:0;background:none;padding:3px}
 .hero{height:78vh;min-height:560px;position:relative;background:#ddd url("https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=2200&q=88") center 35%/cover no-repeat;display:flex;align-items:flex-end}
-.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.52),transparent 55%)}.heroCopy{position:relative;z-index:2;color:#fff;padding:5vw;max-width:720px}.eyebrow{font-size:10px;letter-spacing:.2em;text-transform:uppercase;margin-bottom:13px}.hero h1{font:400 clamp(52px,8vw,112px)/.82 var(--serif);margin:0 0 20px;letter-spacing:-.045em}.hero p{font:13px/1.6 var(--sans);max-width:430px;margin:0 0 25px}.btn{display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--ink);background:var(--ink);color:#fff;padding:13px 22px;font-size:10px;letter-spacing:.16em;text-transform:uppercase;text-decoration:none}.btn.light{background:#fff;color:#111;border-color:#fff}
+.hero:before{content:"";position:absolute;inset:-10%;background:radial-gradient(circle at 50% 40%,rgba(255,255,255,.32),transparent 20%),repeating-conic-gradient(from 0deg at 50% 50%,transparent 0 8deg,rgba(255,255,255,.07) 9deg 10deg);mix-blend-mode:screen;animation:mariaOrbit 22s linear infinite;opacity:.55}
+@keyframes mariaOrbit{to{transform:rotate(360deg) scale(1.12)}}
+.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.72),rgba(0,0,0,.12) 58%,rgba(255,255,255,.1));}.heroCopy{position:relative;z-index:2;color:#fff;padding:5vw;max-width:720px}.eyebrow{font-size:10px;letter-spacing:.2em;text-transform:uppercase;margin-bottom:13px}.hero h1{font:400 clamp(52px,8vw,112px)/.82 var(--serif);margin:0 0 20px;letter-spacing:-.045em}.hero p{font:13px/1.6 var(--sans);max-width:430px;margin:0 0 25px}.btn{display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--ink);background:var(--ink);color:#fff;padding:13px 22px;font-size:10px;letter-spacing:.16em;text-transform:uppercase;text-decoration:none}.btn.light{background:#fff;color:#111;border-color:#fff}
 .section{padding:75px 5vw}.sectionHead{display:flex;align-items:end;justify-content:space-between;margin-bottom:32px}.sectionHead h2{font:400 clamp(34px,5vw,58px)/.9 var(--serif);margin:0;letter-spacing:-.035em}.link{font-size:10px;letter-spacing:.13em;text-transform:uppercase;text-decoration:underline}
 .products{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.product{background:#ecebe6;position:relative}.productImg{aspect-ratio:3/4;overflow:hidden;background:#ddd}.productImg img{width:100%;height:100%;object-fit:cover;filter:grayscale(100%);transition:.5s}.product:hover img{transform:scale(1.035)}.productInfo{padding:14px 3px 20px}.productName{font:20px var(--serif);margin-bottom:7px}.productMeta{font-size:9px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}.price{font-size:11px;margin-top:10px}.tag{position:absolute;top:10px;left:10px;background:#fff;padding:6px 8px;font-size:8px;letter-spacing:.12em;text-transform:uppercase}
 .editorial{display:grid;grid-template-columns:1.08fr .92fr;min-height:650px}.editorialImg{min-height:600px;background:url("https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1500&q=88") center/cover;filter:grayscale(100%)}.editorialCopy{background:#171717;color:#fff;padding:8vw 7vw;display:flex;flex-direction:column;justify-content:center}.editorialCopy h2{font:400 clamp(44px,6vw,80px)/.88 var(--serif);margin:0 0 25px}.editorialCopy p{color:#bbb;max-width:430px;font-size:13px;line-height:1.8}
@@ -26,7 +34,7 @@ footer{background:#171717;color:#fff;padding:55px 5vw 25px}.footerGrid{display:g
 <body>
 <div class="announcement">Complimentary shipping on orders over $150 · The new season is here</div>
 <header>
-  <a class="brand" href="#">NOIR</a>
+  <a class="brand" href="#">MARIA</a>
   <nav class="nav"><a href="#new">What's New</a><a href="#dresses">Dresses</a><a href="#tops">Tops</a><a href="#skirts">Skirts</a><a href="#collections">Collections</a></nav>
   <div class="icons"><button id="searchBtn" aria-label="Search">⌕</button><button id="menuBtn" aria-label="Menu">☰</button></div>
 </header>
@@ -63,9 +71,9 @@ footer{background:#171717;color:#fff;padding:55px 5vw 25px}.footerGrid{display:g
   <div class="tryonCard"><canvas id="canvas"></canvas><div class="tryonControls"><button data-gender="girl">Girl</button><button data-gender="boy">Boy</button><button id="rotate">360°</button><button id="upload">Add cloth</button></div></div></div>
 </section>
 
-<section class="about"><div class="eyebrow">Our point of view</div><h2>Quality, detail,<br>quiet confidence.</h2><p>NOIR is a digital fashion concept inspired by modern luxury storefronts: restrained typography, generous imagery and carefully edited collections. The experience connects the editorial world with an interactive 3D fitting room.</p></section>
+<section class="about"><div class="eyebrow">Our point of view</div><h2>Quality, detail,<br>quiet confidence.</h2><p>MARIA is a digital fashion concept inspired by modern luxury storefronts: restrained typography, generous imagery and carefully edited collections. The experience connects the editorial world with an interactive 3D fitting room.</p></section>
 
-<footer><div class="footerGrid"><div><div class="footerBrand">NOIR</div><p>Digital fashion atelier. Designed for people who notice the details.</p></div><div><h4>Shop</h4><a href="#new">What's New</a><a href="#dresses">Dresses</a><a href="#tops">Tops</a><a href="#collections">Collections</a></div><div><h4>Experience</h4><a href="#dresses">Virtual fitting room</a><a href="#collections">Editorial</a><a href="#">Size guide</a></div><div><h4>Connect</h4><a href="#">Instagram</a><a href="#">TikTok</a><a href="#">Contact</a></div></div><div class="copyright">© 2026 NOIR DIGITAL ATELIER · ALL RIGHTS RESERVED</div></footer>
+<footer><div class="footerGrid"><div><div class="footerBrand">MARIA</div><p>Digital fashion atelier. Designed for people who notice the details.</p></div><div><h4>Shop</h4><a href="#new">What's New</a><a href="#dresses">Dresses</a><a href="#tops">Tops</a><a href="#collections">Collections</a></div><div><h4>Experience</h4><a href="#dresses">Virtual fitting room</a><a href="#collections">Editorial</a><a href="#">Size guide</a></div><div><h4>Connect</h4><a href="#">Instagram</a><a href="#">TikTok</a><a href="#">Contact</a></div></div><div class="copyright">© 2026 MARIA DIGITAL ATELIER · ALL RIGHTS RESERVED</div></footer>
 
 <div class="drawer" id="drawer"><div class="drawerPanel"><div class="drawerTop"><h3>Virtual fitting room</h3><button class="close" id="close">×</button></div><div class="upload"><input id="clothFile" type="file" accept="image/png,image/jpeg,image/webp"></div><input id="clothName" class="input" placeholder="Name your cloth"><div class="grid"><button class="choice active" data-type="shirt">Top</button><button class="choice" data-type="dress">Dress</button><button class="choice" data-type="jacket">Jacket</button><button class="choice" data-type="trouser">Trousers</button></div><button class="btn" id="saveCloth" style="width:100%;margin-top:10px">Add to fitting room</button></div></div>
 
@@ -84,7 +92,7 @@ document.querySelectorAll("[data-gender]").forEach(b=>b.onclick=()=>{gender=b.da
 function animate(){requestAnimationFrame(animate);if(auto)model.rotation.y+=.006;controls.update();renderer.render(scene,camera)}animate();
 const drawer=document.querySelector("#drawer");document.querySelector("#openTry").onclick=()=>drawer.classList.add("open");document.querySelector("#upload").onclick=()=>drawer.classList.add("open");document.querySelector("#close").onclick=()=>drawer.classList.remove("open");drawer.onclick=e=>{if(e.target===drawer)drawer.classList.remove("open")};
 document.querySelector("#menuBtn").onclick=()=>document.querySelector(".nav").style.display=innerWidth<801?"flex":"none";document.querySelector("#searchBtn").onclick=()=>alert("Search is ready for the next catalogue integration.");
-document.querySelector("#saveCloth").onclick=()=>{const f=document.querySelector("#clothFile").files[0],n=document.querySelector("#clothName").value.trim();if(f&&n){localStorage.setItem("noir-custom-cloth",JSON.stringify({name:n,type}));alert(n+" added to your fitting room.");drawer.classList.remove("open")}else alert("Add an image and name your cloth.")};
+document.querySelector("#saveCloth").onclick=()=>{const f=document.querySelector("#clothFile").files[0],n=document.querySelector("#clothName").value.trim();if(f&&n){localStorage.setItem("maria-custom-cloth",JSON.stringify({name:n,type}));alert(n+" added to your fitting room.");drawer.classList.remove("open")}else alert("Add an image and name your cloth.")};
 </script>
 </body>
 </html>
