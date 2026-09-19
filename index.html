@@ -1,1 +1,103 @@
-{"api_tool_source":"files/read","results":[{"api_tool_source":"files/read","read_index":0,"ref_id":"file_0000000004b881f4a6f25883aba7d5dc","mode":"full","content":["The requested file reference is not currently visible. Use files.search or files.list to rediscover the file, then retry with a returned ref_id or file_id."],"warnings":["File is not visible in the requested files surface. Use a visible files.search/files.list/files.find/files.read citation reference such as turn2file0, or pass a file_id that appeared in one of those results."]}],"warnings":["read[0] could not resolve the file reference: File is not visible in the requested files surface. Use a visible files.search/files.list/files.find/files.read citation reference such as turn2file0, or pass a file_id that appeared in one of those results."]}
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Éclipse — Virtual Fitting Studio</title>
+<style>
+:root{--b:#000;--w:#fff;--g:#b8b8b8;--line:#262626;--serif:Georgia,"Times New Roman",serif;--sans:Arial,Helvetica,sans-serif}
+*{box-sizing:border-box}html,body{margin:0;background:var(--b);color:var(--w);font-family:var(--sans);height:100%;overflow:hidden}
+button,input{font:inherit}button{cursor:pointer}.app{height:100dvh;display:grid;grid-template-rows:64px 1fr}
+header{display:flex;align-items:center;justify-content:space-between;padding:0 28px;border-bottom:1px solid var(--line);z-index:5}
+.logo{font:italic 700 27px var(--serif);letter-spacing:-1px}.meta{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#aaa}
+main{display:grid;grid-template-columns:250px 1fr 300px;min-height:0}
+.panel{border-right:1px solid var(--line);padding:22px;overflow:auto}.right{border-right:0;border-left:1px solid var(--line)}
+.eyebrow{font-size:9px;letter-spacing:.2em;color:#888;text-transform:uppercase;margin-bottom:12px}.title{font:500 30px var(--serif);line-height:1.05;margin:0 0 24px}
+.section{padding:18px 0;border-top:1px solid var(--line)}.section:first-of-type{border-top:0}
+label{display:block;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#999;margin-bottom:8px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}.choice{border:1px solid #333;background:#080808;color:#fff;padding:11px 8px;text-transform:uppercase;font-size:10px;letter-spacing:.08em}.choice.active{background:#fff;color:#000;border-color:#fff}
+.slider{width:100%;accent-color:#fff}.value{display:flex;justify-content:space-between;font-size:11px;color:#aaa;margin-top:5px}
+.stage{position:relative;min-width:0;min-height:0;background:radial-gradient(circle at 50% 42%,#252525 0,#0d0d0d 33%,#000 70%);overflow:hidden}
+#canvas{width:100%;height:100%;display:block}.hint{position:absolute;left:22px;bottom:20px;font-size:10px;color:#777;letter-spacing:.08em;text-transform:uppercase;pointer-events:none}
+.toolbar{position:absolute;top:18px;left:50%;transform:translateX(-50%);display:flex;border:1px solid #333;background:#050505}.tool{padding:9px 13px;color:#aaa;font-size:10px;text-transform:uppercase;letter-spacing:.1em;border-right:1px solid #333}.tool:last-child{border:0}.tool.active{color:#000;background:#fff}
+.garment-card{border:1px solid #292929;padding:13px;margin-bottom:8px;background:#050505}.garment-card.active{border-color:#fff}.garment-card button{width:100%;background:none;color:#fff;border:0;text-align:left}.garment-name{font:20px var(--serif)}.garment-sub{font-size:9px;color:#777;text-transform:uppercase;letter-spacing:.12em;margin-top:4px}
+.action{width:100%;border:1px solid #fff;background:#fff;color:#000;padding:12px;text-transform:uppercase;font-size:10px;letter-spacing:.14em;margin-top:10px}.secondary{background:#000;color:#fff;border-color:#333}
+.badge{display:inline-block;border:1px solid #333;padding:5px 7px;font-size:9px;color:#aaa;margin-top:8px}
+@media(max-width:900px){.app{grid-template-rows:56px 1fr}main{grid-template-columns:1fr}.panel{display:none}.stage{height:calc(100dvh - 56px)}header{padding:0 16px}.meta{display:none}.mobilebar{display:flex!important}}
+.mobilebar{display:none;position:absolute;bottom:12px;left:12px;right:12px;z-index:4;background:#050505;border:1px solid #333;padding:8px;gap:7px}.mobilebar button{flex:1;padding:10px;background:#111;color:#fff;border:1px solid #333;font-size:9px;text-transform:uppercase}
+</style>
+</head>
+<body>
+<div class="app">
+<header><div class="logo">Éclipse</div><div class="meta">Physical fitting studio / 360°</div><div class="meta" id="lookMeta">LOOK 01 · NOIR</div></header>
+<main>
+<aside class="panel">
+<div class="eyebrow">Virtual body</div><h1 class="title">The physical<br>model.</h1>
+<div class="section">
+<label>Model proportion</label>
+<div class="grid"><button class="choice active" data-body="standard">Standard</button><button class="choice" data-body="tall">Tall</button></div>
+</div>
+<div class="section">
+<label>Fit</label>
+<input class="slider" id="fit" type="range" min="-12" max="18" value="0">
+<div class="value"><span>SLIM</span><span id="fitVal">REGULAR</span><span>LOOSE</span></div>
+</div>
+<div class="section">
+<label>Turntable</label>
+<div class="grid"><button class="choice active" id="auto">Auto</button><button class="choice" id="reset">Reset</button></div>
+<span class="badge">Drag to rotate · wheel to zoom</span>
+</div>
+</aside>
+<section class="stage">
+<canvas id="canvas"></canvas>
+<div class="toolbar"><button class="tool active" id="front">Front</button><button class="tool" id="back">Back</button><button class="tool" id="side">Side</button><button class="tool" id="full">360°</button></div>
+<div class="hint">Drag the model · scroll to zoom · change garments at right</div>
+<div class="mobilebar"><button id="mFit">Fit</button><button id="mRotate">360°</button><button id="mReset">Reset</button></div>
+</section>
+<aside class="panel right">
+<div class="eyebrow">Wardrobe</div><h2 class="title">Change<br>the cloth.</h2>
+<div id="wardrobe"></div>
+<div class="section">
+<label>Garment fit</label>
+<input class="slider" id="garFit" type="range" min="-10" max="22" value="0"><div class="value"><span>BODY</span><span id="garFitVal">0</span><span>OVERSIZED</span></div>
+<button class="action" id="save">Save look</button>
+<button class="action secondary" id="photo">Snapshot</button>
+</div>
+</aside>
+</main>
+</div>
+<script type="importmap">
+{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.161/build/three.module.js"}}
+</script>
+<script type="module">
+import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.161/build/three.module.js";
+import {OrbitControls} from "https://cdn.jsdelivr.net/npm/three@0.161/examples/jsm/controls/OrbitControls.js";
+const canvas=document.querySelector("#canvas");
+const renderer=new THREE.WebGLRenderer({canvas,antialias:true,preserveDrawingBuffer:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.setSize(canvas.clientWidth,canvas.clientHeight,false);renderer.outputColorSpace=THREE.SRGBColorSpace;
+const scene=new THREE.Scene();const camera=new THREE.PerspectiveCamera(30,1,.1,100);camera.position.set(0,1.5,5.2);
+const controls=new OrbitControls(camera,canvas);controls.enableDamping=true;controls.enablePan=false;controls.minDistance=3.1;controls.maxDistance=7;controls.target.set(0,1.55,0);
+scene.add(new THREE.HemisphereLight(0xffffff,0x111111,2.2));const key=new THREE.DirectionalLight(0xffffff,3.2);key.position.set(3,5,4);scene.add(key);const rim=new THREE.DirectionalLight(0xffffff,2);rim.position.set(-3,3,-4);scene.add(rim);
+const floor=new THREE.Mesh(new THREE.CircleGeometry(2.7,64),new THREE.MeshStandardMaterial({color:0x090909,roughness:1}));floor.rotation.x=-Math.PI/2;floor.position.y=.02;scene.add(floor);
+const model=new THREE.Group();scene.add(model);const matBody=new THREE.MeshStandardMaterial({color:0xe6e6e6,roughness:.85});
+function cyl(r1,r2,h,mat){return new THREE.Mesh(new THREE.CylinderGeometry(r1,r2,h,32),mat)}function sphere(sx,sy,sz,mat){const m=new THREE.Mesh(new THREE.SphereGeometry(1,32,24),mat);m.scale.set(sx,sy,sz);return m}
+function limb(a,b,r,mat){const mid=new THREE.Vector3().addVectors(a,b).multiplyScalar(.5),len=a.distanceTo(b);const m=cyl(r,r,len,mat);m.position.copy(mid);m.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),new THREE.Vector3().subVectors(b,a).normalize());return m}
+const body=new THREE.Group();model.add(body);const torso=cyl(.43,.53,1.15,matBody);torso.position.y=1.55;body.add(torso);const waist=cyl(.40,.43,.35,matBody);waist.position.y=.98;body.add(waist);const head=sphere(.28,.34,.27,matBody);head.position.y=2.55;body.add(head);const neck=cyl(.14,.14,.18,matBody);neck.position.y=2.25;body.add(neck);const pelvis=cyl(.48,.40,.42,matBody);pelvis.position.y=.67;body.add(pelvis);
+let limbs=[];function buildLimbs(){limbs.forEach(x=>body.remove(x));limbs=[];const sh=.47,hip=.35;limbs.push(limb(new THREE.Vector3(-sh,2.02,0),new THREE.Vector3(-.64,1.45,0),.115,matBody));limbs.push(limb(new THREE.Vector3(-.64,1.45,0),new THREE.Vector3(-.68,.9,0),.10,matBody));limbs.push(limb(new THREE.Vector3(sh,2.02,0),new THREE.Vector3(.64,1.45,0),.115,matBody));limbs.push(limb(new THREE.Vector3(.64,1.45,0),new THREE.Vector3(.68,.9,0),.10,matBody));limbs.push(limb(new THREE.Vector3(-hip,.55,0),new THREE.Vector3(-.37,-.35,0),.16,matBody));limbs.push(limb(new THREE.Vector3(.35,.55,0),new THREE.Vector3(.37,-.35,0),.16,matBody));limbs.forEach(x=>body.add(x))}
+buildLimbs();function garmentMat(){return new THREE.MeshStandardMaterial({color:0xffffff,roughness:.9,side:THREE.DoubleSide})}
+const garments={"atelier shirt":{type:"shirt",desc:"structured cotton"},"noir jacket":{type:"jacket",desc:"tailored wool"},"column dress":{type:"dress",desc:"long silhouette"},"wide trousers":{type:"trouser",desc:"fluid cut"}};
+let current="atelier shirt",fit=0,bodyScale=1;const clothes=new THREE.Group();model.add(clothes);function clear(g){while(g.children.length)g.remove(g.children[0])}
+function makeGarment(){clear(clothes);const f=fit/100,mat=garmentMat();if(current==="atelier shirt"){const g=cyl(.48+f,.56+f,1.02,mat);g.position.y=1.55;clothes.add(g);for(const x of [-.63,.63]){const s=cyl(.13+f/4,.11+f/4,.62,mat);s.position.set(x,1.72,0);clothes.add(s)}}if(current==="noir jacket"){const g=cyl(.54+f,.62+f,1.12,mat);g.position.y=1.52;clothes.add(g);const lap=new THREE.Mesh(new THREE.BoxGeometry(.07,.65,.03),mat);lap.position.set(-.16,1.72,.58);lap.rotation.z=-.18;clothes.add(lap);const lap2=lap.clone();lap2.position.x=.16;lap2.rotation.z=.18;clothes.add(lap2);for(const x of [-.68,.68]){const s=cyl(.15+f/4,.12+f/4,.7,mat);s.position.set(x,1.72,0);clothes.add(s)}}if(current==="column dress"){const g=cyl(.38+f,.62+f,1.72,mat);g.position.y=1.25;clothes.add(g)}if(current==="wide trousers"){for(const x of [-.35,.35]){const p=cyl(.22+f,.28+f,1.02,mat);p.position.set(x,.03,0);clothes.add(p)}}clothes.scale.set(bodyScale,1,bodyScale);updateMeta()}
+function updateMeta(){document.querySelector("#lookMeta").textContent="LOOK 01 · "+current.toUpperCase();document.querySelector("#garFitVal").textContent=fit>0?"+"+fit:fit;document.querySelector("#fitVal").textContent=fit<-4?"SLIM":fit>6?"LOOSE":"REGULAR"}
+function setFit(v){fit=+v;document.querySelector("#fit").value=fit;document.querySelector("#garFit").value=fit;makeGarment()}function setBodyTall(tall){bodyScale=tall?1.06:1;body.scale.y=bodyScale;clothes.scale.y=bodyScale;makeGarment()}
+function addWardrobe(){const box=document.querySelector("#wardrobe");box.innerHTML="";Object.entries(garments).forEach(([name,g])=>{const d=document.createElement("div");d.className="garment-card"+(name===current?" active":"");d.innerHTML=`<button><div class="garment-name">${name}</div><div class="garment-sub">${g.desc} · monochrome</div></button>`;d.onclick=()=>{current=name;addWardrobe();makeGarment()};box.appendChild(d)})}
+document.querySelectorAll("[data-body]").forEach(b=>b.onclick=()=>{document.querySelectorAll("[data-body]").forEach(x=>x.classList.remove("active"));b.classList.add("active");setBodyTall(b.dataset.body==="tall")});
+document.querySelector("#fit").oninput=e=>setFit(e.target.value);document.querySelector("#garFit").oninput=e=>setFit(e.target.value);
+let auto=true;document.querySelector("#auto").onclick=()=>{auto=!auto;document.querySelector("#auto").textContent=auto?"Auto":"Manual";document.querySelector("#auto").classList.toggle("active",auto)};
+document.querySelector("#reset").onclick=()=>{controls.reset();camera.position.set(0,1.5,5.2);controls.target.set(0,1.55,0);controls.update()};function angle(a){auto=false;document.querySelector("#auto").classList.remove("active");model.rotation.y=a}
+document.querySelector("#front").onclick=()=>angle(0);document.querySelector("#back").onclick=()=>angle(Math.PI);document.querySelector("#side").onclick=()=>angle(Math.PI/2);document.querySelector("#full").onclick=()=>{auto=true;document.querySelector("#auto").classList.add("active")};
+document.querySelector("#save").onclick=()=>localStorage.setItem("eclipse-look",JSON.stringify({current,fit,bodyScale}));document.querySelector("#photo").onclick=()=>{const a=document.createElement("a");a.download="eclipse-look.png";a.href=renderer.domElement.toDataURL("image/png");a.click()};
+document.querySelector("#mFit").onclick=()=>document.querySelector(".right").scrollIntoView({behavior:"smooth"});document.querySelector("#mRotate").onclick=()=>auto=true;document.querySelector("#mReset").onclick=()=>document.querySelector("#reset").click();
+addWardrobe();makeGarment();function resize(){const w=canvas.clientWidth,h=canvas.clientHeight;if(!w||!h)return;camera.aspect=w/h;camera.updateProjectionMatrix();renderer.setSize(w,h,false)}window.addEventListener("resize",resize);resize();function animate(){requestAnimationFrame(animate);if(auto)model.rotation.y+=.004;controls.update();renderer.render(scene,camera)}animate();
+</script>
+</body></html>
